@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.34.0">
+  <bpmn:process id="Process_NewTicket" name="New ticket" isExecutable="true" camunda:historyTimeToLive="3">
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="Event_Start" name="Start Process">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="documentIds" label="Document IDs" type="string">
+            <camunda:properties />
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1770g34</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_End" name="End Process">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1vea96n</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_BuildResult" name="Build Result" camunda:class="pl.harpi.colos.infrastructure.output.bpmn.BuildResultService">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_05gwozm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vea96n</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1vea96n" sourceRef="Task_BuildResult" targetRef="Event_End" />
+    <bpmn:serviceTask id="Activity_Prepare_Documents" name="Prepare Documents" camunda:delegateExpression="${documentPreparationService}">
+      <bpmn:incoming>Flow_1770g34</bpmn:incoming>
+      <bpmn:outgoing>Flow_11b131q</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1770g34" sourceRef="Event_Start" targetRef="Activity_Prepare_Documents" />
+    <bpmn:sequenceFlow id="Flow_11b131q" sourceRef="Activity_Prepare_Documents" targetRef="CallActivity_ProcessSingleDocument" />
+    <bpmn:callActivity id="CallActivity_ProcessSingleDocument" name="Process Single Document" calledElement="Process_SingleDocument">
+      <bpmn:extensionElements>
+        <camunda:in source="documentId" target="documentId" />
+        <camunda:out source="processingResult" target="result_${documentId}" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11b131q</bpmn:incoming>
+      <bpmn:outgoing>Flow_05gwozm</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false" camunda:collection="${documentList}" camunda:elementVariable="documentId" />
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_05gwozm" sourceRef="CallActivity_ProcessSingleDocument" targetRef="Task_BuildResult" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_NewTicket">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Event_Start">
+        <dc:Bounds x="152" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="139" y="295" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0idlmji_di" bpmnElement="Task_BuildResult">
+        <dc:Bounds x="870" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qqasvu_di" bpmnElement="Activity_Prepare_Documents">
+        <dc:Bounds x="280" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gbfgfi_di" bpmnElement="CallActivity_ProcessSingleDocument">
+        <dc:Bounds x="560" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ic8mzh_di" bpmnElement="Event_End">
+        <dc:Bounds x="1082" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1069" y="295" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1vea96n_di" bpmnElement="Flow_1vea96n">
+        <di:waypoint x="970" y="270" />
+        <di:waypoint x="1082" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1770g34_di" bpmnElement="Flow_1770g34">
+        <di:waypoint x="188" y="270" />
+        <di:waypoint x="280" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11b131q_di" bpmnElement="Flow_11b131q">
+        <di:waypoint x="380" y="270" />
+        <di:waypoint x="560" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05gwozm_di" bpmnElement="Flow_05gwozm">
+        <di:waypoint x="660" y="270" />
+        <di:waypoint x="870" y="270" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

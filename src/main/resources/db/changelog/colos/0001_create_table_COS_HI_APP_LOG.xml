@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0001" author="Colos">
+        <createTable tableName="COS_HI_APP_LOG">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="LOGICAL_ID" type="NVARCHAR(160)">
+                <constraints nullable="true" unique="false"/>
+            </column>
+            <column name="TIMESTAMP" type="TIMESTAMP">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="MODULE" type="NVARCHAR(320)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="CLASS_NAME" type="NVARCHAR(320)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="METHOD_NAME" type="NVARCHAR(320)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="REQUEST_INFO" type="CLOB"/>
+            <column name="RESPONSE_INFO" type="CLOB"/>
+            <column name="EXECUTION_TIME_MS" type="BIGINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="SUCCESS" type="BOOL">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="ERROR_MESSAGE" type="CLOB"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

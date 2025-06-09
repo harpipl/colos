@@ -1,0 +1,17 @@
+services:
+  postgresql:
+    image: 'bitnami/postgresql:latest'
+    container_name: colos.db.psql.local-dev
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRESQL_DATABASE=colos
+      - POSTGRESQL_USERNAME=colos
+      - POSTGRESQL_PASSWORD=colos
+    networks:
+      - app-tier
+
+networks:
+  app-tier:
+    driver: bridge
