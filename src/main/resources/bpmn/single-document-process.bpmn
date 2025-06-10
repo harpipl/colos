@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02m23tv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_SingleDocument" name="Single document" isExecutable="true" camunda:historyTimeToLive="3">
-    <bpmn:startEvent id="Event_Start" name="Start">
+    <bpmn:startEvent id="Event_Start" name="Start Process">
       <bpmn:outgoing>Flow_1tzt5dd</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Activity_PrepareOutput" name="Prepare Output" camunda:class="pl.harpi.colos.infrastructure.output.bpmn.PrepareOutputService">
@@ -10,7 +10,7 @@
       <bpmn:outgoing>Flow_0qwniy5</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_1tzt5dd" sourceRef="Event_Start" targetRef="Activity_PrepareOutput" />
-    <bpmn:endEvent id="Event_End" name="End">
+    <bpmn:endEvent id="Event_End" name="End Process">
       <bpmn:incoming>Flow_0qwniy5</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0qwniy5" sourceRef="Activity_PrepareOutput" targetRef="Event_End" />
@@ -20,7 +20,7 @@
       <bpmndi:BPMNShape id="Event_0y3dykq_di" bpmnElement="Event_Start">
         <dc:Bounds x="122" y="452" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="129" y="495" width="24" height="14" />
+          <dc:Bounds x="108" y="495" width="67" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0havmqv_di" bpmnElement="Activity_PrepareOutput">
@@ -30,7 +30,7 @@
       <bpmndi:BPMNShape id="Event_1k55vq9_di" bpmnElement="Event_End">
         <dc:Bounds x="362" y="452" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="370" y="495" width="20" height="14" />
+          <dc:Bounds x="349" y="495" width="63" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1tzt5dd_di" bpmnElement="Flow_1tzt5dd">
