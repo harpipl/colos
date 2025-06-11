@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BuildResultService implements JavaDelegate {
   @Override
-  public void execute(DelegateExecution delegateExecution) throws Exception {
+  public void execute(DelegateExecution execution) {
     log.info("BuildResultService.execute: done");
   }
 }

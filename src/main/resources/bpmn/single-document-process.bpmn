@@ -6,41 +6,84 @@
     </bpmn:startEvent>
     <bpmn:serviceTask id="Activity_PrepareOutput" name="Prepare Output" camunda:class="pl.harpi.colos.infrastructure.output.bpmn.PrepareOutputService">
       <bpmn:extensionElements />
-      <bpmn:incoming>Flow_1tzt5dd</bpmn:incoming>
+      <bpmn:incoming>Flow_0ijbyrh</bpmn:incoming>
       <bpmn:outgoing>Flow_0qwniy5</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_1tzt5dd" sourceRef="Event_Start" targetRef="Activity_PrepareOutput" />
+    <bpmn:sequenceFlow id="Flow_1tzt5dd" sourceRef="Event_Start" targetRef="Activity_DoSomething" />
     <bpmn:endEvent id="Event_End" name="End Process">
       <bpmn:incoming>Flow_0qwniy5</bpmn:incoming>
+      <bpmn:incoming>Flow_1r8kg8x</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0qwniy5" sourceRef="Activity_PrepareOutput" targetRef="Event_End" />
+    <bpmn:serviceTask id="Activity_DoSomething" name="Do Something" camunda:asyncBefore="true" camunda:class="pl.harpi.colos.infrastructure.output.bpmn.DoSomethingService">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R3/PT10S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tzt5dd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ijbyrh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0ijbyrh" sourceRef="Activity_DoSomething" targetRef="Activity_PrepareOutput" />
+    <bpmn:boundaryEvent id="Event_DoSomething" attachedToRef="Activity_DoSomething">
+      <bpmn:outgoing>Flow_1r8kg8x</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_04kr338" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_1r8kg8x" sourceRef="Event_DoSomething" targetRef="Event_End" />
+    <bpmn:textAnnotation id="TextAnnotation_0ibtvus">
+      <bpmn:text>Job execution: retry R3/PT10S</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1r665mk" associationDirection="None" sourceRef="Activity_DoSomething" targetRef="TextAnnotation_0ibtvus" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_documentProcess">
     <bpmndi:BPMNPlane id="BPMNPlane_documentProcess" bpmnElement="Process_SingleDocument">
       <bpmndi:BPMNShape id="Event_0y3dykq_di" bpmnElement="Event_Start">
-        <dc:Bounds x="122" y="452" width="36" height="36" />
+        <dc:Bounds x="102" y="312" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="108" y="495" width="67" height="14" />
+          <dc:Bounds x="88" y="355" width="67" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0havmqv_di" bpmnElement="Activity_PrepareOutput">
-        <dc:Bounds x="210" y="430" width="100" height="80" />
+        <dc:Bounds x="360" y="290" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1k55vq9_di" bpmnElement="Event_End">
-        <dc:Bounds x="362" y="452" width="36" height="36" />
+        <dc:Bounds x="532" y="312" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="349" y="495" width="63" height="14" />
+          <dc:Bounds x="518" y="288" width="63" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a6bk46_di" bpmnElement="Activity_DoSomething">
+        <dc:Bounds x="210" y="290" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1r665mk_di" bpmnElement="Association_1r665mk">
+        <di:waypoint x="298" y="290" />
+        <di:waypoint x="326" y="261" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_10sewyh_di" bpmnElement="Event_DoSomething">
+        <dc:Bounds x="262" y="352" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1tzt5dd_di" bpmnElement="Flow_1tzt5dd">
-        <di:waypoint x="158" y="470" />
-        <di:waypoint x="210" y="470" />
+        <di:waypoint x="138" y="330" />
+        <di:waypoint x="210" y="330" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0qwniy5_di" bpmnElement="Flow_0qwniy5">
-        <di:waypoint x="310" y="470" />
-        <di:waypoint x="362" y="470" />
+        <di:waypoint x="460" y="330" />
+        <di:waypoint x="532" y="330" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ijbyrh_di" bpmnElement="Flow_0ijbyrh">
+        <di:waypoint x="310" y="330" />
+        <di:waypoint x="360" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r8kg8x_di" bpmnElement="Flow_1r8kg8x">
+        <di:waypoint x="280" y="388" />
+        <di:waypoint x="280" y="500" />
+        <di:waypoint x="550" y="500" />
+        <di:waypoint x="550" y="348" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0ibtvus_di" bpmnElement="TextAnnotation_0ibtvus">
+        <dc:Bounds x="310" y="220" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
